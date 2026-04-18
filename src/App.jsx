@@ -20,10 +20,23 @@ import {
   X,
   ArrowRight,
   Cpu,
-  Terminal,
-  Instagram,
-  Facebook
+  Terminal
 } from 'lucide-react';
+
+// Custom SVG Icons for Instagram and Facebook to fix export errors
+const InstagramIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+const FacebookIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -502,15 +515,15 @@ const App = () => {
                   </div>
                 </div>
 
-                {/* Social Networks Add Kiye Gaye Hain */}
+                {/* Social Networks */}
                 <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-3xl p-6 flex flex-col justify-center">
                   <p className="text-xs text-zinc-500 uppercase tracking-wider font-bold mb-3">Social Networks</p>
                   <div className="flex gap-4">
                     <a href="https://www.instagram.com/incredtiwarii/" target="_blank" rel="noopener noreferrer" className="bg-zinc-800 p-3 rounded-xl hover:bg-pink-600/20 hover:text-pink-500 transition-all group shadow-sm">
-                      <Instagram className="text-zinc-300 group-hover:text-pink-500 w-5 h-5 transition-colors"/>
+                      <InstagramIcon className="text-zinc-300 group-hover:text-pink-500 w-5 h-5 transition-colors"/>
                     </a>
                     <a href="https://www.facebook.com/Incred.tiwari" target="_blank" rel="noopener noreferrer" className="bg-zinc-800 p-3 rounded-xl hover:bg-blue-600/20 hover:text-blue-500 transition-all group shadow-sm">
-                      <Facebook className="text-zinc-300 group-hover:text-blue-500 w-5 h-5 transition-colors"/>
+                      <FacebookIcon className="text-zinc-300 group-hover:text-blue-500 w-5 h-5 transition-colors"/>
                     </a>
                   </div>
                 </div>
@@ -585,10 +598,10 @@ const App = () => {
           {/* Footer me Social Links */}
           <div className="flex items-center gap-5">
             <a href="https://www.instagram.com/incredtiwarii/" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-pink-500 hover:scale-110 transition-all">
-              <Instagram className="w-5 h-5" />
+              <InstagramIcon className="w-5 h-5" />
             </a>
             <a href="https://www.facebook.com/Incred.tiwari" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-blue-500 hover:scale-110 transition-all">
-              <Facebook className="w-5 h-5" />
+              <FacebookIcon className="w-5 h-5" />
             </a>
           </div>
           
