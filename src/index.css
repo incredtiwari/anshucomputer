@@ -1,9 +1,18 @@
 @import "tailwindcss";
 
 :root {
+  --hc-ink: #19303e;
+  --hc-brand: #256b75;
+  --hc-brand-dark: #1c525d;
+  --hc-brand-soft: #eaf2ef;
+  --hc-accent: #bd9155;
+  --hc-paper: #faf9f6;
+  --hc-section: #f4f6f2;
+  --hc-line: #e2e7e2;
+  --hc-muted: #5f6f7a;
   font-family: Inter, "Segoe UI", Arial, sans-serif;
-  color: #14243a;
-  background: #ffffff;
+  color: var(--hc-ink);
+  background: var(--hc-paper);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -36,11 +45,11 @@ a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 summary:focus-visible {
-  outline: 3px solid rgba(49, 111, 163, 0.45);
+  outline: 3px solid rgba(37, 107, 117, 0.42);
   outline-offset: 3px;
 }
 
 ::selection {
-  color: #173957;
-  background: #d9eafa;
+  color: #19303e;
+  background: #e4efeb;
 }
