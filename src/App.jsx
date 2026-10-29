@@ -431,7 +431,10 @@ function App() {
                   <CheckCircle2 size={42} aria-hidden="true" />
                   <h3>Request received.</h3>
                   <p>Thanks for reaching out. Himanshu will contact you to confirm a convenient time.</p>
-                  <a className="button button-secondary" href={"tel:" + ownerDetails.phone}><Phone size={16} /> Call us directly</a>
+                  <div className="success-actions">
+                    <a className="button button-secondary" href={"tel:" + ownerDetails.phone}><Phone size={16} /> Call us directly</a>
+                    <a className="button button-upi" href="upi://pay?pa=t.m@ptaxis&pn=Himanshu%20Computers&cu=INR"><Zap size={16} /> Pay via UPI</a>
+                  </div>
                   <button className="text-link" type="button" onClick={() => setBookingStatus("idle")}>Make another booking request</button>
                 </div>
               ) : (
@@ -461,6 +464,8 @@ function App() {
           <p>Friendly technology support, with a human touch.</p>
           <div className="footer-links">
             <a href="#services">Services</a><a href="#about">About</a><a href="#faqs">FAQs</a><a href="#contact">Contact</a>
+            <a href="https://www.instagram.com/incredtiwarii/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.facebook.com/Incred.tiwari" target="_blank" rel="noopener noreferrer">Facebook</a>
           </div>
         </div>
         <div className="container footer-bottom">
