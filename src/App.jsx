@@ -33,6 +33,34 @@ const EMAILJS_SERVICE_ID = "service_fjxkl7x";
 const EMAILJS_TEMPLATE_ID = "template_fohe65i";
 const EMAILJS_PUBLIC_KEY = "hmlQ1NZ8VrDBWbM7I";
 
+const createEmailFallback = (subject, lines) => {
+  const query = new URLSearchParams({
+    subject,
+    body: lines.join("\n"),
+  });
+  return "mailto:" + ownerDetails.email + "?" + query.toString();
+};
+
+const getEmailErrorMessage = (error) => {
+  if (error?.name === "TypeError") {
+    return "The email service could not be reached. Check that https://www.himanshucomputers.in is allowed in EmailJS → Account → Domains.";
+  }
+
+  if (error?.status === 401 || error?.status === 403) {
+    return "EmailJS rejected this request. Check the public key and allow https://www.himanshucomputers.in in EmailJS → Account → Domains.";
+  }
+
+  if (error?.status === 400 || error?.status === 422) {
+    return "EmailJS rejected the service or template settings. Please check the service ID, template ID, and template fields.";
+  }
+
+  if (error?.status === 429) {
+    return "The email service is temporarily rate-limited. Please wait a moment and try again.";
+  }
+
+  return "We could not send this through the website. You can use the email option below instead.";
+};
+
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
@@ -99,6 +127,8 @@ function App() {
   const [contactStatus, setContactStatus] = useState("idle");
   const [bookingError, setBookingError] = useState("");
   const [contactError, setContactError] = useState("");
+  const [bookingEmailFallback, setBookingEmailFallback] = useState("");
+  const [contactEmailFallback, setContactEmailFallback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sendEmail = async (templateParams) => {
@@ -116,8 +146,12 @@ function App() {
       }),
     });
 
+    const responseText = await response.text();
     if (!response.ok) {
-      throw new Error("The message could not be sent.");
+      const error = new Error(responseText || "EmailJS rejected the request.");
+      error.status = response.status;
+      console.error("EmailJS send failed:", response.status, responseText);
+      throw error;
     }
   };
 
@@ -125,23 +159,33 @@ function App() {
     event.preventDefault();
     setIsSubmitting(true);
     setBookingError("");
+    setBookingEmailFallback("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const request = {
+      from_name: formData.get("name"),
+      reply_to: formData.get("phone"),
+      request_type: "Slot Booking / Website Inquiry",
+      date: formData.get("date"),
+      time: formData.get("time"),
+      message: formData.get("issue"),
+    };
 
     try {
-      await sendEmail({
-        from_name: formData.get("name"),
-        reply_to: formData.get("phone"),
-        request_type: "Slot Booking / Website Inquiry",
-        date: formData.get("date"),
-        time: formData.get("time"),
-        message: formData.get("issue"),
-      });
+      await sendEmail(request);
       setBookingStatus("success");
       form.reset();
-    } catch {
-      setBookingError("We couldn’t send your request. Please call or email us and we’ll be happy to help.");
+    } catch (error) {
+      setBookingError(getEmailErrorMessage(error));
+      setBookingEmailFallback(createEmailFallback("Website service request", [
+        "Name: " + request.from_name,
+        "Phone: " + request.reply_to,
+        "Requested date: " + request.date,
+        "Preferred time: " + request.time,
+        "",
+        "Details: " + request.message,
+      ]));
     } finally {
       setIsSubmitting(false);
     }
@@ -151,23 +195,31 @@ function App() {
     event.preventDefault();
     setIsSubmitting(true);
     setContactError("");
+    setContactEmailFallback("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const request = {
+      from_name: formData.get("name"),
+      reply_to: formData.get("email"),
+      request_type: "General Inquiry",
+      date: "N/A",
+      time: "N/A",
+      message: formData.get("message"),
+    };
 
     try {
-      await sendEmail({
-        from_name: formData.get("name"),
-        reply_to: formData.get("email"),
-        request_type: "General Inquiry",
-        date: "N/A",
-        time: "N/A",
-        message: formData.get("message"),
-      });
+      await sendEmail(request);
       setContactStatus("success");
       form.reset();
-    } catch {
-      setContactError("We couldn’t send your message. Please call or email us and we’ll be happy to help.");
+    } catch (error) {
+      setContactError(getEmailErrorMessage(error));
+      setContactEmailFallback(createEmailFallback("Website enquiry from " + request.from_name, [
+        "Name: " + request.from_name,
+        "Email: " + request.reply_to,
+        "",
+        "Message: " + request.message,
+      ]));
     } finally {
       setIsSubmitting(false);
     }
@@ -407,7 +459,12 @@ function App() {
                   <label>Name<input name="name" type="text" autoComplete="name" placeholder="Your name" required /></label>
                   <label>Email<input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></label>
                   <label className="field-full">How can we help?<textarea name="message" rows="5" placeholder="Tell us a little about what you need..." required /></label>
-                  {contactError && <p className="form-error" role="alert">{contactError}</p>}
+                  {contactError && (
+                    <div className="form-error" role="alert">
+                      <p>{contactError}</p>
+                      <a className="text-link" href={contactEmailFallback}>Open email app instead</a>
+                    </div>
+                  )}
                   <button className="button button-primary form-submit" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Sending..." : "Send message"} <ArrowRight size={16} aria-hidden="true" />
                   </button>
@@ -444,7 +501,12 @@ function App() {
                   <label>Date<span className="input-with-icon"><Calendar size={16} aria-hidden="true" /><input name="date" type="date" required /></span></label>
                   <label>Preferred time<span className="input-with-icon"><Clock size={16} aria-hidden="true" /><input name="time" type="time" required /></span></label>
                   <label className="field-full">What do you need help with?<textarea name="issue" rows="4" placeholder="Describe the problem or service you’re looking for..." required /></label>
-                  {bookingError && <p className="form-error" role="alert">{bookingError}</p>}
+                  {bookingError && (
+                    <div className="form-error" role="alert">
+                      <p>{bookingError}</p>
+                      <a className="text-link" href={bookingEmailFallback}>Open email app instead</a>
+                    </div>
+                  )}
                   <button className="button button-primary form-submit" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Sending request..." : "Request an appointment"} <ArrowRight size={16} aria-hidden="true" />
                   </button>
