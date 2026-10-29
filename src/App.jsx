@@ -14,7 +14,6 @@ import {
   Monitor,
   Phone,
   ShieldAlert,
-  User,
   Wrench,
   X,
   Zap,
