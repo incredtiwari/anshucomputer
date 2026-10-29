@@ -1138,10 +1138,25 @@
 }
 
 .form-error {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 6px;
   margin: 0;
-  color: #ac4d45;
+  padding: 11px 12px;
+  border: 1px solid #f0d7d4;
+  border-radius: 8px;
+  color: #93483f;
+  background: #fff7f6;
   font-size: 11px;
   line-height: 1.5;
+}
+
+.form-error p {
+  margin: 0;
+}
+
+.form-error a {
+  width: fit-content;
 }
 
 .form-submit {
