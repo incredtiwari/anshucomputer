@@ -231,8 +231,8 @@ function App() {
         <section className="hero section-anchor" id="home">
           <div className="container hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow"><span className="eyebrow-dot" /> Personal, dependable tech support</p>
-              <h1>Computer trouble?<br /><span>Let’s make it simple.</span></h1>
+              <p className="eyebrow"><span className="eyebrow-dot" /> Computer repair & IT support, made simple</p>
+              <h1>Computer repair,<br /><span>without the guesswork.</span></h1>
               <p className="hero-intro">
                 From repairs and setup to safer, faster devices, get thoughtful computer support with clear advice at every step.
               </p>
