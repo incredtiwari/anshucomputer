@@ -200,7 +200,7 @@ function App() {
             ))}
           </nav>
 
-          <a className="button button-primary nav-cta" href="#booking">
+          <a className="button button-primary nav-cta" href="#booking-form">
             Book a service <ArrowRight size={16} aria-hidden="true" />
           </a>
 
@@ -221,7 +221,7 @@ function App() {
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} onClick={closeMobileMenu}>{link.label}</a>
             ))}
-            <a href="#booking" onClick={closeMobileMenu}>Book a service</a>
+            <a href="#booking-form" onClick={closeMobileMenu}>Book a service</a>
           </nav>
         )}
       </header>
@@ -236,7 +236,7 @@ function App() {
                 From repairs and setup to safer, faster devices, get thoughtful computer support with clear advice at every step.
               </p>
               <div className="hero-actions">
-                <a className="button button-primary button-large" href="#booking">
+                <a className="button button-primary button-large" href="#booking-form">
                   Tell us what you need <ArrowRight size={18} aria-hidden="true" />
                 </a>
                 <a className="button button-secondary button-large" href={"tel:" + ownerDetails.phone}>
@@ -304,7 +304,7 @@ function App() {
                   <span className="service-number">0{index + 1}</span>
                   <h3>{title}</h3>
                   <p>{description}</p>
-                  <a href="#booking" className="text-link">Ask about this service <ArrowRight size={15} aria-hidden="true" /></a>
+                  <a href="#booking-form" className="text-link">Ask about this service <ArrowRight size={15} aria-hidden="true" /></a>
                 </article>
               ))}
             </div>
@@ -317,7 +317,7 @@ function App() {
               <p className="eyebrow eyebrow-light">No guesswork</p>
               <h2>A straightforward<br />way to get help.</h2>
               <p>We’ll listen, explain the options, and agree on the next step together.</p>
-              <a className="button button-light" href="#booking">Get started <ArrowRight size={16} aria-hidden="true" /></a>
+              <a className="button button-light" href="#booking-form">Get started <ArrowRight size={16} aria-hidden="true" /></a>
             </div>
             <div className="process-steps">
               <article><span>01</span><div><h3>Tell us what’s going on</h3><p>Share the problem, device, and a time that works for you.</p></div></article>
