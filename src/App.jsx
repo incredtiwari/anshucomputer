@@ -29,7 +29,7 @@ const ownerDetails = {
   clients: "500+",
 };
 
-const EMAILJS_SERVICE_ID = "service_fjxkl7x";
+const EMAILJS_SERVICE_ID = "service_k8e1lnq";
 const EMAILJS_TEMPLATE_ID = "template_fohe65i";
 const EMAILJS_PUBLIC_KEY = "hmlQ1NZ8VrDBWbM7I";
 
