@@ -1222,6 +1222,24 @@
   min-height: 350px;
 }
 
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+}
+
+.button-upi {
+  color: #4b5685;
+  border-color: #e1e4ef;
+  background: #f7f8fc;
+}
+
+.button-upi:hover {
+  border-color: #c6cbe0;
+  background: #eff1f9;
+}
+
 .booking-success .button {
   margin-top: 5px;
 }
