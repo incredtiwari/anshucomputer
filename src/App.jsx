@@ -10,6 +10,7 @@ import {
   Globe,
   Laptop,
   Mail,
+  MapPin,
   Menu,
   Monitor,
   Phone,
@@ -235,6 +236,7 @@ function App() {
               <p className="hero-intro">
                 From repairs and setup to safer, faster devices, get thoughtful computer support with clear advice at every step.
               </p>
+              <p className="hero-coverage"><MapPin size={16} aria-hidden="true" /> Based in Lucknow · Online support across India</p>
               <div className="hero-actions">
                 <a className="button button-primary button-large" href="#booking-form">
                   Tell us what you need <ArrowRight size={18} aria-hidden="true" />
@@ -336,7 +338,7 @@ function App() {
             <div className="about-copy">
               <p className="eyebrow">A little about us</p>
               <h2>Real help from<br /><span>a real person.</span></h2>
-              <p>Himanshu Computers is led by Himanshu Tiwari, helping people and small businesses get more from their technology. The goal is simple: listen carefully, explain things clearly, and recommend work that fits your situation.</p>
+              <p>Himanshu Computers is led by Himanshu Tiwari, helping people and small businesses get more from their technology. Based in Lucknow, the business also provides online support across India. The goal is simple: listen carefully, explain things clearly, and recommend work that fits your situation.</p>
               <p>Whether you need a computer back on its feet or a clean website for your business, you’ll get a direct point of contact from the first conversation.</p>
               <a className="text-link about-link" href="#contact">Meet your support contact <ArrowRight size={16} aria-hidden="true" /></a>
             </div>
