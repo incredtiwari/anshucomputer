@@ -2523,3 +2523,39 @@
     min-height: 46px;
   }
 }
+
+
+/* Service-specific booking flow */
+.booking-service-select {
+  display: block;
+  width: 100%;
+  min-height: 47px;
+  padding: 11px 38px 11px 12px;
+  border: 1px solid #dce4ec;
+  border-radius: 10px;
+  outline: none;
+  color: #304953;
+  background-color: #fff;
+  font-size: 13px;
+  font-weight: 450;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.booking-service-select:invalid {
+  color: #879594;
+}
+
+.booking-service-select:focus {
+  border-color: #6ca0a0;
+  box-shadow: 0 0 0 3px rgba(37, 107, 117, 0.13);
+}
+
+.booking-service-select option {
+  color: var(--hc-ink);
+}
+
+@media (max-width: 560px) {
+  .booking-service-select {
+    min-height: 46px;
+  }
+}

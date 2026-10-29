@@ -124,6 +124,7 @@ const faqs = [
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
   const [bookingStatus, setBookingStatus] = useState("idle");
   const [contactStatus, setContactStatus] = useState("idle");
   const [bookingError, setBookingError] = useState("");
@@ -168,20 +169,26 @@ function App() {
       from_name: formData.get("name"),
       reply_to: formData.get("phone"),
       request_type: "Slot Booking / Website Inquiry",
-      date: formData.get("date"),
-      time: formData.get("time"),
+      service: formData.get("service"),
+      date: formData.get("date") || "Not specified",
+      time: formData.get("time") || "Not specified",
       message: formData.get("issue"),
     };
 
     try {
-      await sendEmail(request);
+      await sendEmail({
+        ...request,
+        message: ["Requested service: " + request.service, request.message].join("\n\n"),
+      });
       setBookingStatus("success");
       form.reset();
+      setSelectedService("");
     } catch (error) {
       setBookingError(getEmailErrorMessage(error));
       setBookingEmailFallback(createEmailFallback("Website service request", [
         "Name: " + request.from_name,
         "Phone: " + request.reply_to,
+        "Service: " + request.service,
         "Requested date: " + request.date,
         "Preferred time: " + request.time,
         "",
@@ -227,6 +234,13 @@ function App() {
   };
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const handleServiceSelect = (service) => {
+    setSelectedService(service);
+    setBookingStatus("idle");
+    setBookingError("");
+    setBookingEmailFallback("");
+  };
 
   return (
     <div className="site-shell">
@@ -358,7 +372,7 @@ function App() {
                   <span className="service-number">0{index + 1}</span>
                   <h3>{title}</h3>
                   <p>{description}</p>
-                  <a href="#booking-form" className="text-link">Ask about this service <ArrowRight size={15} aria-hidden="true" /></a>
+                  <a href="#booking-form" className="text-link" onClick={() => handleServiceSelect(title)}>Ask about this service <ArrowRight size={15} aria-hidden="true" /></a>
                 </article>
               ))}
             </div>
@@ -500,8 +514,15 @@ function App() {
                 <form className="form-grid" onSubmit={handleBookingSubmit}>
                   <label>Name<input name="name" type="text" autoComplete="name" placeholder="Your name" required /></label>
                   <label>Phone<input name="phone" type="tel" autoComplete="tel" placeholder="Your phone number" required /></label>
-                  <label>Date<span className="input-with-icon"><Calendar size={16} aria-hidden="true" /><input name="date" type="date" required /></span></label>
-                  <label>Preferred time<span className="input-with-icon"><Clock size={16} aria-hidden="true" /><input name="time" type="time" required /></span></label>
+                  <label>Preferred date (optional)<span className="input-with-icon"><Calendar size={16} aria-hidden="true" /><input name="date" type="date" /></span></label>
+                  <label>Preferred time (optional)<span className="input-with-icon"><Clock size={16} aria-hidden="true" /><input name="time" type="time" /></span></label>
+                  <label className="field-full">Service needed
+                    <select className="booking-service-select" name="service" value={selectedService} onChange={(event) => setSelectedService(event.target.value)} required>
+                      <option value="" disabled>Select the closest service</option>
+                      {services.map(({ title }) => <option key={title} value={title}>{title}</option>)}
+                      <option value="Not sure yet">Not sure yet</option>
+                    </select>
+                  </label>
                   <label className="field-full">What do you need help with?<textarea name="issue" rows="4" placeholder="Describe the problem or service you’re looking for..." required /></label>
                   {bookingError && (
                     <div className="form-error" role="alert">
