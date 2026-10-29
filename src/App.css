@@ -242,6 +242,21 @@
   line-height: 1.75;
 }
 
+.hero-coverage {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 14px 0 0;
+  color: #60768b;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.hero-coverage svg {
+  flex: 0 0 auto;
+  color: #3c739f;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
